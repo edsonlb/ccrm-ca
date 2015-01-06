@@ -1,26 +1,27 @@
 # coding=utf-8
-from sqlalchemy import Column, Integer, String, TIMESTAMP, TEXT
+from sqlalchemy import ForeignKey, Column, Integer, String, TIMESTAMP, TEXT
 from database import Base
-from colaboradores.models.py import Colaborador
+from colaboradores.models import Colaborador
+from datetime import datetime
 
 class Atendimento(Base):
     __tablename__ = 'atendimentos'
 
     id = Column(Integer, primary_key=True)
-    id_colaborador = Column(Integer, ForeignKey("colaborador.id"), nullable=False)
-    empresa = Column(String(100))
+    id_colaborador = Column(Integer, ForeignKey("colaboradores.id"), nullable=False)
+    empresa = Column(String(100), index=True)
     pessoa = Column(String(100))
-    email = Column(String(100))
-    meio = Column(String(100))
+    email = Column(String(100), index=True)
+    meio = Column(String(100), index=True)
     relato = Column(TEXT)
-    data_cadastro = Column(TIMESTAMP, default=time_now)
-    data_atendimento = Column(TIMESTAMP, default=time_now)
+    data_cadastro = Column(TIMESTAMP, default=datetime.now())
+    data_atendimento = Column(TIMESTAMP, default=datetime.now())
     observacao = Column(TEXT)
-    categoria = Column(String(100), default='SEM CATEGORIA')
+    categoria = Column(String(100),index=True, default='SEM CATEGORIA')
     satisfacao = Column(Integer, default='4')
     satisfacao_observacao = Column(TEXT)
     retornar = Column(String(3), default='NÃO')
-    ativo = Column(String(3), default='SIM')
+    ativo = Column(String(3),index=True, default='SIM')
 
     def __init__(self):
         self.ativo = 'SIM'
