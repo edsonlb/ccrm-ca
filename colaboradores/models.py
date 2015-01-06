@@ -1,6 +1,9 @@
 # coding=utf-8
 from sqlalchemy import Column, Integer, String
+from sqlalchemy.orm import relationship, backref
 from database import Base
+from atendimentos.models import *
+from flask.ext.restful import fields
 
 class Colaborador(Base):
     __tablename__ = 'colaboradores'
@@ -14,6 +17,7 @@ class Colaborador(Base):
     telefone = Column(String(100))
     senha = Column(String(100),index=True, default='senha')
     ativo = Column(String(3),index=True, default='SIM')
+    atendimentos = relationship('Atendimento', backref='colaborador', lazy='dynamic')
 
     def __init__(self, nome=None, email=None, senha='senha'):
         self.name = name
@@ -23,3 +27,17 @@ class Colaborador(Base):
 
     def __repr__(self):
         return '<Colaborador %r>' % (self.nome)
+
+# marshallers
+colaborador_campos = {
+    'id': fields.Integer,
+    'nome': fields.String,
+    'avatar': fields.String,
+    'email': fields.String,
+    'skype': fields.String,
+    'hangout': fields.String,
+    'telefone': fields.String,
+    'senha': fields.String,
+    'ativo': fields.String,
+    'uri': fields.Url('colaborador')
+}

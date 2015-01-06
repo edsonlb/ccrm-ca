@@ -1,8 +1,9 @@
 # coding=utf-8
 from sqlalchemy import ForeignKey, Column, Integer, String, TIMESTAMP, TEXT
 from database import Base
-from colaboradores.models import Colaborador
+from colaboradores.models import *
 from datetime import datetime
+from flask.ext.restful import fields
 
 class Atendimento(Base):
     __tablename__ = 'atendimentos'
@@ -28,3 +29,22 @@ class Atendimento(Base):
 
     def __repr__(self):
         return '<Atendimento %r %r %r>' % (self.empresa, self.pessoa, self.meio)
+
+# marshallers = http://stackoverflow.com/questions/22035974/flask-restful-marshal-complex-object-to-json
+atendimento_campos = {
+    'id': fields.Integer,
+    'id_colaborador': fields.Nested(colaborador_campos),
+    'empresa': fields.String,
+    'pessoa': fields.String,
+    'email': fields.String,
+    'relato': fields.String,
+    'data_cadastro': fields.DateTime,
+    'data_atendimento': fields.DateTime,
+    'observacao': fields.String,
+    'categoria': fields.String,
+    'satisfacao': fields.String,
+    'satisfacao_observacao': fields.String,
+    'retornar': fields.String,
+    'ativo': fields.String,
+    'uri': fields.Url('atendimento')
+}
