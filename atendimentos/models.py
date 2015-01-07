@@ -28,7 +28,7 @@ class Atendimento(Base):
         self.ativo = 'SIM'
 
     def __repr__(self):
-        return '<Atendimento %r %r %r>' % (self.empresa, self.pessoa, self.meio)
+        return '<Atendimento %r>' % (self.pessoa)
 
 # marshallers = http://stackoverflow.com/questions/22035974/flask-restful-marshal-complex-object-to-json
 atendimento_campos = {
@@ -37,6 +37,7 @@ atendimento_campos = {
     'empresa': fields.String,
     'pessoa': fields.String,
     'email': fields.String,
+    'meio': fields.String,
     'relato': fields.String,
     'data_cadastro': fields.DateTime,
     'data_atendimento': fields.DateTime,
@@ -45,6 +46,6 @@ atendimento_campos = {
     'satisfacao': fields.String,
     'satisfacao_observacao': fields.String,
     'retornar': fields.String,
-    'ativo': fields.String,
-    'uri': fields.Url('atendimento')
+    'ativo': fields.String
+    #'uri': fields.Url('atendimento')
 }

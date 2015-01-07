@@ -19,10 +19,7 @@ class Colaborador(Base):
     ativo = Column(String(3),index=True, default='SIM')
     atendimentos = relationship('Atendimento', backref='colaborador', lazy='dynamic')
 
-    def __init__(self, nome=None, email=None, senha='senha'):
-        self.name = name
-        self.email = email
-        self.senha = senha
+    def __init__(self):
         self.ativo = 'SIM'
 
     def __repr__(self):
@@ -38,6 +35,8 @@ colaborador_campos = {
     'hangout': fields.String,
     'telefone': fields.String,
     'senha': fields.String,
-    'ativo': fields.String,
-    'uri': fields.Url('colaborador')
+    'ativo': fields.String
+    
 }
+
+#'uri': fields.Url('colaborador')

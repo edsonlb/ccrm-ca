@@ -1,0 +1,5 @@
+usuario = ''
+senha = ''
+servidor = ''
+banco = ''
+chave = ''

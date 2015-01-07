@@ -1,4 +1,4 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
 
 from database import db_session, init_db
 from atendimentos.models import *
@@ -9,6 +9,7 @@ from flask.ext.restful import Api, Resource, reqparse, marshal, marshal_with
 from flask.ext.httpauth import HTTPBasicAuth
 from sqlalchemy import func
 from configuracao import *
+import json
 
  
 app = Flask(__name__, static_url_path = "")
@@ -37,15 +38,12 @@ class atendimentos_api(Resource):
         self.reqparse = reqparse.RequestParser()
         super(atendimentos_api, self).__init__()
         
-    #def get(self):
-    #   atendimento = Atendimento.query.filter(Atendimento.ativo=='SIM')
-    #    return { 'atendimentos': map(lambda t: marshal(t, atendimento_campos), atendimento) }
-
     @marshal_with(atendimento_campos)
     def get(self):
         atendimentos = Atendimento.query.filter(Atendimento.ativo=='SIM')
-        return { 'atendimentos': map(lambda t: marshal(t, atendimento_campos), atendimentos) }
+        return atendimentos.all()
 
+    @marshal_with(atendimento_campos)
     def post(self):
         args = self.reqparse.parse_args()
         atendimento = Atendimento()
@@ -64,7 +62,7 @@ class atendimentos_api(Resource):
         atendimento.ativo = args['ativo']
 
         atendimento.post()
-        return { 'atendimento': marshal(atendimento, atendimento_fields) }, 201
+        return atendimento
 
 
 api.add_resource(atendimentos_api, '/atendimentos')
